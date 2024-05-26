@@ -44,10 +44,10 @@ export class AccunetsService {
             const token = jwt.sign( payload , `${process.env.secretKey}`);
             return {token};
          } else {
-            return "Password is incorrect";
+            return { message: "Password is incorrect"};
          }
       } else {
-         return "User not found";
+         return { message: "User not found"};
       }
 
 }

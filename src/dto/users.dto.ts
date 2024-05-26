@@ -1,7 +1,6 @@
 import { IsDate, IsEmail, IsNotEmpty, IsStrongPassword } from "class-validator";
 
 
-
 export class CreateUserDto {
        @IsNotEmpty()
        name: string;
