@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from 'src/dto/users.dto';
 import { UserDocument, user } from 'src/models/user.schema';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AccunetsService {
@@ -17,8 +18,11 @@ export class AccunetsService {
    }
 
    async createUser( body : CreateUserDto ) {
+      
       const createUser = new  this.userModel(body);
-      return createUser.save();
+      createUser.save();
+      const token = jwt.sign(body, `${process.env.secretKey}`);
+      return {token};
       
    }
 
