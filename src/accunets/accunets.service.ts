@@ -8,11 +8,12 @@ import { UserDocument, user } from 'src/models/user.schema';
 export class AccunetsService {
    constructor(@InjectModel(user.name) private userModel: Model<UserDocument>) {}
    async getAccunets() {
-      return 'This action returns all accunets';
+      return this.userModel.find();
    }
 
    async getUser( id : string ) {
-      return id + ' - This action returns a user';
+      const user = await this.userModel.findById(id);
+      return user;
    }
 
    async createUser( body : CreateUserDto ) {
