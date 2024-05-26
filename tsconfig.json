@@ -1,4 +1,8 @@
 {
+  "include": [
+    "src/**/*",
+    "src/chat-gateway.ts"
+  ],
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
