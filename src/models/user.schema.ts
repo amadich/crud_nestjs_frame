@@ -9,6 +9,12 @@ export class user {
    name: string;
    @Prop({ required: true })
    email: string;
+
+   @Prop({ required: true })
+   password: string;
+
+   @Prop({ default: Date.now })
+   timestamps: Date;
    
 }
 

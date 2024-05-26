@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from 'src/dto/users.dto';
+import { CreateUserDto, SigninDto } from 'src/dto/users.dto';
 import { UserDocument, user } from 'src/models/user.schema';
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class AccunetsService {
@@ -19,11 +20,36 @@ export class AccunetsService {
 
    async createUser( body : CreateUserDto ) {
       
+      const hashpwd = bcrypt.hashSync(body.password, 10);
+      body.password = hashpwd;
       const createUser = new  this.userModel(body);
-      createUser.save();
+      await createUser.save();
       const token = jwt.sign(body, `${process.env.secretKey}`);
       return {token};
       
    }
+
+   async signin( body : SigninDto ) {
+      const user = await this.userModel.findOne({email : body.email});
+      if (user) {
+         const match = bcrypt.compareSync(body.password, user.password);
+         if (match) {
+            const payload = {
+               
+                  id: user._id,
+                  name: user.name,
+                  email: user.email,
+                  
+               };
+            const token = jwt.sign( payload , `${process.env.secretKey}`);
+            return {token};
+         } else {
+            return "Password is incorrect";
+         }
+      } else {
+         return "User not found";
+      }
+
+}
 
 }
