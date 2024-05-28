@@ -9,3 +9,4 @@ import { ChatModule } from './chat/chat.module';
   imports: [ ConfigModule.forRoot() , MongooseModule.forRoot(`${process.env.MONGO_URI}`)  , AccunetsModule, ChatModule],
 })
 export class AppModule {}
+ 
